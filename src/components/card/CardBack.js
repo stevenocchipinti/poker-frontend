@@ -6,6 +6,7 @@ const styles = {
     position: "relative",
     backgroundColor: "white",
     borderRadius: "0.25em",
+    boxShadow: "0 0 2px black",
     height: "100%",
     width: "100%",
     backgroundImage: `url(${back})`,
