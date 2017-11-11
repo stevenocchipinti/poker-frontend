@@ -30,12 +30,12 @@ const styles = {
 
 class Card extends Component {
   render() {
-    const {size, suit, value} = this.props
+    const {size, suit, value, revealed} = this.props
     const color = (suit === "spades" || suit === "clubs") ? "black" : "red"
 
     return (
       <div style={{...styles.card, color: color}}>
-        <div style={styles.back}><CardBack /></div>
+        <div style={{...styles.back, display: revealed ? "none" : "initial"}}><CardBack /></div>
         <div style={styles.front}><CardFront suit={suit} value={value}/></div>
       </div>
     )

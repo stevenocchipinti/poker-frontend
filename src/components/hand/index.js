@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Children, cloneElement } from 'react'
 
 const styles = {
   hand: {
@@ -13,13 +13,38 @@ const styles = {
 const offsetEm = 0.5;
 
 class Hand extends Component {
+  constructor() {
+    super()
+    this.state = { revealed: false }
+  }
+
+  handleTouchStart() {
+    this.setState({ revealed: true })
+  }
+
+  handleTouchEnd() {
+    this.setState({ revealed: false })
+  }
+
   render() {
-    const width = 3.55 + (this.props.children.length - 1) * offsetEm;
+    const { revealed } = this.state;
+    const { children } = this.props;
+    const width = 3.55 + (children.length - 1) * offsetEm;
+
     return (
-      <div style={{...styles.hand, width: `${width}em`}}>
+      <div
+        style={{...styles.hand, width: `${width}em`}}
+        onTouchStart={() => this.handleTouchStart()}
+        onTouchEnd={() => this.handleTouchEnd()}
+        onMouseDown={() => this.handleTouchStart()}
+        onMouseUp={() => this.handleTouchEnd()}
+      >
         {
-          this.props.children.map((child, index) => (
-            <div style={{
+          Children.map(
+            children,
+            child => cloneElement(child, {revealed})
+          ).map((child, index) => (
+            <div key={index} style={{
               ...styles.card,
               left: `${index * offsetEm}em`
             }}>
