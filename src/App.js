@@ -12,7 +12,7 @@ const styles = {
     fontSize: 60,
   },
   floppyRiverTurn: {
-    backgroundColor: "#49c493", //"chartreuse",
+    backgroundColor: "#49c493",
     flexGrow: 1
   },
   table: {
@@ -25,14 +25,25 @@ const styles = {
 }
 
 class App extends Component {
+  constructor() {
+    super()
+    this.state = { hand: [
+      { suit: "diamonds", value: "A" },
+      { suit: "spades", value: "A" },
+      { suit: "hearts", value: "A" },
+      { suit: "clubs", value: "A" },
+    ] }
+  }
   render() {
+    const { hand } = this.state
     return (
       <div style={styles.layout}>
         <div style={styles.floppyRiverTurn}>Floppy River</div>
         <div style={styles.table}>
           <Hand>
-            <Card suit="diamonds" value="A"/>
-            <Card suit="diamonds" value="J"/>
+            {hand.map(({suit, value}, index) => (
+              <Card key={index} suit={suit} value={value}/>
+            ))}
           </Hand>
         </div>
       </div>
