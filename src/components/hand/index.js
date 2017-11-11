@@ -3,7 +3,8 @@ import React, { Component, Children, cloneElement } from 'react'
 const styles = {
   hand: {
     position: "relative",
-    height: "5em"
+    height: "5em",
+    transition: "400ms ease-in-out"
   },
   card: {
     position: "absolute"
@@ -28,12 +29,13 @@ class Hand extends Component {
 
   render() {
     const { revealed } = this.state;
-    const { children } = this.props;
+    const { children, visible } = this.props;
     const width = 3.55 + (children.length - 1) * offsetEm;
+    const transform = `translateY(${visible ? 0 : "-100vh"})`
 
     return (
       <div
-        style={{...styles.hand, width: `${width}em`}}
+        style={{...styles.hand, width: `${width}em`, transform}}
         onTouchStart={() => this.handleTouchStart()}
         onTouchEnd={() => this.handleTouchEnd()}
         onMouseDown={() => this.handleTouchStart()}
@@ -41,7 +43,7 @@ class Hand extends Component {
       >
         {
           Children.map(
-            children,
+            children.filter(c => c),
             child => cloneElement(child, {revealed})
           ).map((child, index) => (
             <div key={index} style={{

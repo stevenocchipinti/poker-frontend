@@ -27,12 +27,7 @@ class App extends Component {
     this.state = {
       player: null,
       communal: [null, null, null, null, null],
-      hand: [
-        { suit: "diamonds", value: "A" },
-        { suit: "spades", value: "J" },
-        { suit: "hearts", value: "Q" },
-        { suit: "clubs", value: "K" },
-      ]
+      hand: [],
     }
   }
 
@@ -40,7 +35,7 @@ class App extends Component {
     const name = window.prompt("Who the hell are you?!")
     const cable = window.ActionCable.createConsumer("ws://localhost:5000/cable")
     cable.subscriptions.create({ channel: "GameChannel", player: name}, {
-      received: (data) => this.setState(data),
+      received: data => this.setState(data),
     })
     this.setState({ player: name })
   }
@@ -51,9 +46,9 @@ class App extends Component {
       <div style={styles.layout}>
         <CommunalCards cards={communal}/>
         <div style={styles.table}>
-          <Hand>
-            {hand.map(({suit, value}, index) => (
-              <Card key={index} suit={suit} value={value}/>
+          <Hand visible={this.state.hand.filter(c => c).length > 0}>
+            {hand.filter(c => c).map((card, index) => (
+              <Card key={index} suit={card.suit} value={card.value}/>
             ))}
           </Hand>
         </div>
