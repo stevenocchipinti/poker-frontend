@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import Card from "./components/Card.js"
+import CardBack from "./components/CardBack.js"
 
 class App extends Component {
   render() {
@@ -25,6 +26,7 @@ class App extends Component {
           <Card size="30px" suit="diamonds" value="J"/>
           <Card size="30px" suit="diamonds" value="Q"/>
           <Card size="30px" suit="diamonds" value="K"/>
+          <CardBack size="30px"/>
           <Card size="30px" suit="hearts" value="A"/>
           <Card size="30px" suit="hearts" value="2"/>
           <Card size="30px" suit="hearts" value="3"/>
@@ -38,6 +40,7 @@ class App extends Component {
           <Card size="30px" suit="hearts" value="J"/>
           <Card size="30px" suit="hearts" value="Q"/>
           <Card size="30px" suit="hearts" value="K"/>
+          <CardBack size="30px"/>
           <Card size="30px" suit="spades" value="A"/>
           <Card size="30px" suit="spades" value="2"/>
           <Card size="30px" suit="spades" value="3"/>
@@ -51,6 +54,7 @@ class App extends Component {
           <Card size="30px" suit="spades" value="J"/>
           <Card size="30px" suit="spades" value="Q"/>
           <Card size="30px" suit="spades" value="K"/>
+          <CardBack size="30px"/>
           <Card size="30px" suit="clubs" value="A"/>
           <Card size="30px" suit="clubs" value="2"/>
           <Card size="30px" suit="clubs" value="3"/>
@@ -64,7 +68,7 @@ class App extends Component {
           <Card size="30px" suit="clubs" value="J"/>
           <Card size="30px" suit="clubs" value="Q"/>
           <Card size="30px" suit="clubs" value="K"/>
-
+          <CardBack size="30px"/>
         </div>
       </div>
     );
