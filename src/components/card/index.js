@@ -9,7 +9,6 @@ const styles = {
     alignItems: "center",
     height: "5em",
     width: "3.55em",
-    margin: "0.1em",
   },
   front: {
     position: "absolute",
@@ -35,7 +34,7 @@ class Card extends Component {
     const color = (suit === "spades" || suit === "clubs") ? "black" : "red"
 
     return (
-      <div style={{...styles.card, fontSize: (size || 20), color: color}}>
+      <div style={{...styles.card, color: color}}>
         <div style={styles.back}><CardBack /></div>
         <div style={styles.front}><CardFront suit={suit} value={value}/></div>
       </div>
