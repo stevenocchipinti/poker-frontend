@@ -13,6 +13,7 @@ const styles = {
     alignItems: "center",
     fontSize: "20px",
     height: "5em",
+    width: "3.55em",
   },
   topCorner: {
     display: "flex",
