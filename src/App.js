@@ -28,17 +28,20 @@ const styles = {
 class App extends Component {
   constructor() {
     super()
-    this.state = { hand: [
-      { suit: "diamonds", value: "A" },
-      { suit: "spades", value: "A" },
-      { suit: "hearts", value: "A" },
-      { suit: "clubs", value: "A" },
-    ] }
+    this.state = {
+      hand: [
+        { suit: "diamonds", value: "A" },
+        { suit: "spades", value: "J" },
+        { suit: "hearts", value: "Q" },
+        { suit: "clubs", value: "K" },
+      ],
+      socketId: Math.random()*100000000000000000,
+    }
   }
 
   componentDidMount() {
     const cable = window.ActionCable.createConsumer("ws://localhost:5000/cable")
-    const deckChannel = cable.subscriptions.create({channel: "DeckChannel"}, {
+    const deckChannel = cable.subscriptions.create({channel: "DeckChannel", uuid: this.state.socketId}, {
       connected: () => {
         console.log("connected", this.identifier)
       },

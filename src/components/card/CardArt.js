@@ -1,8 +1,8 @@
 import React from "react"
 import suits from "./suit.js"
-import king from "./assets/king.png"
-import queen from "./assets/queen.png"
-import jack from "./assets/jack.png"
+import king from "./assets/king.svg"
+import queen from "./assets/queen.svg"
+import jack from "./assets/jack.svg"
 
 const styles = {
   art: {

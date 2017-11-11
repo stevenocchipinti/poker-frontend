@@ -1,5 +1,5 @@
 import React from "react"
-import back from "./assets/back.png"
+import back from "./assets/back.svg"
 
 const styles = {
   back: {
