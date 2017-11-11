@@ -26,13 +26,7 @@ class App extends Component {
     super()
     this.state = {
       player: null,
-      communal: [
-        { suit: "diamonds", value: "A" },
-        { suit: "spades", value: "J" },
-        { suit: "hearts", value: "Q" },
-        null,
-        null,
-      ],
+      communal: [null, null, null, null, null],
       hand: [
         { suit: "diamonds", value: "A" },
         { suit: "spades", value: "J" },
@@ -43,13 +37,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const name = 'bob'//window.prompt("Who the hell are you?!")
+    const name = window.prompt("Who the hell are you?!")
     const cable = window.ActionCable.createConsumer("ws://localhost:5000/cable")
     cable.subscriptions.create({ channel: "GameChannel", player: name}, {
-      received: (data) => this.setState({ hand: data.hand }),
-    })
-    cable.subscriptions.create({ channel: "GameChannel"}, {
-      received: (data) => this.setState({ communal: data.communal }),
+      received: (data) => this.setState(data),
     })
     this.setState({ player: name })
   }
