@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import Hand from "./components/hand"
 import Card from "./components/card"
+import CommunalCards from "./components/communalCards"
 import "./lib/actioncable-js/actioncable.js"
 
 const styles = {
@@ -10,10 +11,6 @@ const styles = {
     flexDirection: "column",
     height: "100vh",
     fontSize: 60,
-  },
-  floppyRiverTurn: {
-    backgroundColor: "#49c493",
-    flexGrow: 1
   },
   table: {
     flexGrow: 8,
@@ -29,6 +26,13 @@ class App extends Component {
     super()
     this.state = {
       player: null,
+      communal: [
+        { suit: "diamonds", value: "A" },
+        { suit: "spades", value: "J" },
+        { suit: "hearts", value: "Q" },
+        null,
+        null,
+      ],
       hand: [
         { suit: "diamonds", value: "A" },
         { suit: "spades", value: "J" },
@@ -39,33 +43,22 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const name = window.prompt("Who the hell are you?!")
+    const name = 'bob'//window.prompt("Who the hell are you?!")
     const cable = window.ActionCable.createConsumer("ws://localhost:5000/cable")
-    cable.subscriptions.create({
-      channel: "GameChannel",
-      player: name
-    }, {
-      connected: () => {
-        console.log("connected", this.identifier)
-      },
-      disconnected: () => {
-        console.log("disconnected", this.identifier)
-      },
-      rejected: () => {
-        console.log("rejected")
-      },
-      received: (data) => {
-        this.setState({ hand: data.hand })
-      },
+    cable.subscriptions.create({ channel: "GameChannel", player: name}, {
+      received: (data) => this.setState({ hand: data.hand }),
+    })
+    cable.subscriptions.create({ channel: "GameChannel"}, {
+      received: (data) => this.setState({ communal: data.communal }),
     })
     this.setState({ player: name })
   }
 
   render() {
-    const { hand } = this.state
+    const { hand, communal } = this.state
     return (
       <div style={styles.layout}>
-        <div style={styles.floppyRiverTurn}>Floppy River</div>
+        <CommunalCards cards={communal}/>
         <div style={styles.table}>
           <Hand>
             {hand.map(({suit, value}, index) => (
