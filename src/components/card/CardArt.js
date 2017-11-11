@@ -1,8 +1,8 @@
 import React from "react"
 import suits from "./suit.js"
-import king from "../assets/king.png"
-import queen from "../assets/queen.png"
-import jack from "../assets/jack.png"
+import king from "./assets/king.png"
+import queen from "./assets/queen.png"
+import jack from "./assets/jack.png"
 
 const styles = {
   art: {
@@ -13,24 +13,18 @@ const styles = {
     width: "2.7em",
     margin: ".5em",
   },
-  column: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    flexGrow: "1",
-    alignItems: "center",
-  },
-  suit: {
+  ace: {
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
+    fontSize: "3em",
   },
   picture: {
     width: "2.5em"
   },
 }
 
-const eh = {
+const artWork = {
   'K': king,
   'Q': queen,
   'J': jack,
@@ -40,12 +34,12 @@ const CardArt = ({suit, value}) => (
   value === "A"
   ? (
     <div style={styles.art}>
-      <div style={{...styles.suit, fontSize: "3em"}}>{suits[suit]}︎</div>
+      <div style={styles.ace}>{suits[suit]}︎</div>
     </div>
   )
   : (
     <div style={styles.art}>
-      <img style={styles.picture} src={eh[value]} />
+      <img style={styles.picture} src={artWork[value]} />
     </div>
   )
 )

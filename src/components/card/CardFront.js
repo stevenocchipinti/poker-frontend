@@ -7,13 +7,12 @@ const styles = {
   card: {
     position: "relative",
     backgroundColor: "white",
-    borderRadius: "0.25em",
-    boxShadow: "0 0 2px black",
     display: "flex",
     alignItems: "center",
-    fontSize: "20px",
-    height: "5em",
-    width: "3.55em",
+    borderRadius: "0.25em",
+    boxShadow: "0 0 2px black",
+    height: "100%",
+    width: "100%",
   },
   topCorner: {
     display: "flex",
@@ -44,22 +43,21 @@ const styles = {
   },
 }
 
-const Card = ({size, suit, value}) => {
+const CardFront = ({suit, value}) => {
   const suitArt = <div>{suits[suit]}︎</div>
   const suitValue = <div>{value}︎</div>
-  const color = (suit === "spades" || suit === "clubs") ? "black" : "red"
 
   return (
-    <div style={{...styles.card, fontSize: size, color: color}}>
+    <div style={styles.card}>
       <div style={styles.topCorner}>{suitValue}{suitArt}</div>
-        {
-          Number.isInteger(Number.parseInt(value))
-            ? <CardPattern suit={suit} value={value}/>
-            : <CardArt suit={suit} value={value}/>
-        }
+      {
+        Number.isInteger(Number.parseInt(value))
+          ? <CardPattern suit={suit} value={value}/>
+          : <CardArt suit={suit} value={value}/>
+      }
       <div style={styles.bottomCorner}>{suitValue}{suitArt}</div>
     </div>
   )
 }
 
-export default Card
+export default CardFront
