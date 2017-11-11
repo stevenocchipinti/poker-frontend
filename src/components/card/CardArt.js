@@ -39,7 +39,7 @@ const CardArt = ({suit, value}) => (
   )
   : (
     <div style={styles.art}>
-      <img style={styles.picture} src={artWork[value]} />
+      <img alt="" style={styles.picture} src={artWork[value]} />
     </div>
   )
 )

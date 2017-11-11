@@ -30,7 +30,7 @@ const styles = {
 
 class Card extends Component {
   render() {
-    const {size, suit, value, revealed} = this.props
+    const {suit, value, revealed} = this.props
     const color = (suit === "spades" || suit === "clubs") ? "black" : "red"
 
     return (

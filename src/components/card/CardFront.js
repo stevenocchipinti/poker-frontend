@@ -51,7 +51,7 @@ const CardFront = ({suit, value}) => {
     <div style={styles.card}>
       <div style={styles.topCorner}>{suitValue}{suitArt}</div>
       {
-        Number.isInteger(Number.parseInt(value))
+        Number.isInteger(Number.parseInt(value, 10))
           ? <CardPattern suit={suit} value={value}/>
           : <CardArt suit={suit} value={value}/>
       }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
 import './App.css'
 import Hand from "./components/hand"
 import Card from "./components/card"
@@ -41,7 +40,7 @@ class App extends Component {
 
   componentDidMount() {
     const cable = window.ActionCable.createConsumer("ws://localhost:5000/cable")
-    const deckChannel = cable.subscriptions.create({channel: "DeckChannel", uuid: this.state.socketId}, {
+    cable.subscriptions.create({channel: "DeckChannel"}, {
       connected: () => {
         console.log("connected", this.identifier)
       },
