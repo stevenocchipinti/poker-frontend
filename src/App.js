@@ -28,7 +28,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      player: Math.round((Math.random() * 100000)),
+      player: null,
       hand: [
         { suit: "diamonds", value: "A" },
         { suit: "spades", value: "J" },
@@ -39,10 +39,11 @@ class App extends Component {
   }
 
   componentDidMount() {
+    const name = window.prompt("Who the hell are you?!")
     const cable = window.ActionCable.createConsumer("ws://localhost:5000/cable")
     cable.subscriptions.create({
       channel: "GameChannel",
-      player: this.state.player
+      player: name
     }, {
       connected: () => {
         console.log("connected", this.identifier)
@@ -56,7 +57,8 @@ class App extends Component {
       received: (data) => {
         this.setState({ hand: data.hand })
       },
-    });
+    })
+    this.setState({ player: name })
   }
 
   render() {
