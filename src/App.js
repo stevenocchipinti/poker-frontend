@@ -41,13 +41,20 @@ class App extends Component {
     this.setState({ player: name })
   }
 
+  fold() {
+    this.setState({ hand: [] })
+  }
+
   render() {
     const { hand, communal } = this.state
     return (
       <div style={styles.layout}>
         <CommunalCards cards={communal}/>
         <div style={styles.table}>
-          <Hand visible={this.state.hand.filter(c => c).length > 0}>
+          <Hand
+            fold={() => this.fold()}
+            visible={hand.filter(c => c).length > 0}
+          >
             {hand.filter(c => c).map((card, index) => (
               <Card key={index} suit={card.suit} value={card.value}/>
             ))}
