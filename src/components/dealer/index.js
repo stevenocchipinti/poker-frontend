@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BACKEND_ADDRESS } from "../../config"
+import { BACKEND_API_URL } from "../../config"
 
 const styles = {
   container: {
@@ -21,7 +21,7 @@ const styles = {
 
 export default class Dealer extends Component {
   makeCall(action) {
-    fetch(`http://${BACKEND_ADDRESS}/${action}`)
+    fetch(`${BACKEND_API_URL}/${action}`)
   }
 
   render() {
