@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "stable"
+cache:
+  directories:
+  - node_modules
+env:
+  - REACT_APP_BACKEND_API_URL="https://poker-backend.herokuapp.com" REACT_APP_BACKEND_SOCKET_URL="wss://poker-backend.herokuapp.com"
+script:
+  - yarn build
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: build
+  on:
+    branch: master
