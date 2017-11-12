@@ -21,6 +21,8 @@ class Hand extends Component {
       startY: 0,
       endY: 0,
       moving: false,
+      startTme: 0,
+      endTime: 0,
     }
   }
 
@@ -30,6 +32,7 @@ class Hand extends Component {
       moving: true,
       startY: event.touches[0].clientY,
       endY: event.touches[0].clientY,
+      startTime: new Date().valueOf(),
     })
   }
 
@@ -38,23 +41,28 @@ class Hand extends Component {
       revealed: false,
       moving: false,
       startY: 0,
-      endY: 0
+      endY: 0,
+      endTime: new Date().valueOf(),
     })
   }
 
   handleTouchMove(event) {
     this.setState({
-      endY: event.touches[0].clientY
+      endY: event.touches[0].clientY,
     })
   }
 
   render() {
-    const { revealed, startY, endY, moving } = this.state;
+    const { revealed, startY, endY, moving, startTime, endTime } = this.state;
     const { children, visible } = this.props;
     const width = 3.55 + (children.length - 1) * offsetEm;
-    const transform = `translateY(${visible ? `${Math.min(endY-startY,0)}px` : "-100vh"})`
-    const transition = !moving ? "400ms ease-in-out" : "initial"
 
+    const distance = Math.min(endY-startY,0)
+    const time = endTime - startTime
+    const speed = distance / time
+
+    const transform = `translateY(${visible ? `${distance}px` : "-100vh"})`
+    const transition = !moving ? "400ms ease-in-out" : "initial"
     return (
       <div
         style={{...styles.hand, width: `${width}em`, transform, transition}}
@@ -75,7 +83,7 @@ class Hand extends Component {
             </div>
           ))
         }
-        <div>Much Lol: {startY} {endY}</div>
+        <div>Speed: {speed} </div>
       </div>
     )
   }

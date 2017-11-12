@@ -11,6 +11,7 @@ const styles = {
     flexDirection: "column",
     height: "100vh",
     fontSize: 60,
+    overflow: "hidden",
   },
   table: {
     flexGrow: 8,
