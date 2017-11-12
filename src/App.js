@@ -12,6 +12,7 @@ const styles = {
     height: "100vh",
     fontSize: 60,
     overflow: "hidden",
+    userSelect: "none",
   },
   table: {
     flexGrow: 8,
@@ -34,13 +35,20 @@ class App extends Component {
   }
 
   componentDidMount() {
+    window.oncontextmenu = (event) => this.disableContextMenu(event)
     const name = window.prompt("Who the hell are you?!")
-    const cable = window.ActionCable.createConsumer("ws://localhost:5000/cable")
+    const cable = window.ActionCable.createConsumer("ws://10.0.1.48:5000/cable")
     const channel = cable.subscriptions.create({ channel: "GameChannel", player: name}, {
       received: data => this.setState(data),
       fold: function() { this.perform("fold") },
     })
     this.setState({ player: name, channel })
+  }
+
+  disableContextMenu(event) {
+    event.preventDefault()
+    event.stopPropagation()
+    return false
   }
 
   fold() {
