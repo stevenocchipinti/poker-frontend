@@ -29,20 +29,23 @@ class App extends Component {
       player: null,
       communal: [null, null, null, null, null],
       hand: [],
+      channel: null,
     }
   }
 
   componentDidMount() {
     const name = window.prompt("Who the hell are you?!")
     const cable = window.ActionCable.createConsumer("ws://localhost:5000/cable")
-    cable.subscriptions.create({ channel: "GameChannel", player: name}, {
+    const channel = cable.subscriptions.create({ channel: "GameChannel", player: name}, {
       received: data => this.setState(data),
+      fold: function() { this.perform("fold") },
     })
-    this.setState({ player: name })
+    this.setState({ player: name, channel })
   }
 
   fold() {
     this.setState({ hand: [] })
+    this.state.channel.fold()
   }
 
   render() {
