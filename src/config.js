@@ -1,2 +1,1 @@
-export const BACKEND_HOST = "localhost"
-export const BACKEND_PORT = "5000"
+export const BACKEND_ADDRESS = process.env["REACT_APP_BACKEND_ADDRESS"] || "localhost:5000"

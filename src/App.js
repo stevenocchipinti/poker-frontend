@@ -5,7 +5,7 @@ import Card from "./components/card"
 import Dealer from "./components/dealer"
 import CommunalCards from "./components/communalCards"
 import "./lib/actioncable-js/actioncable.js"
-import { BACKEND_HOST, BACKEND_PORT } from "./config"
+import { BACKEND_ADDRESS } from "./config"
 
 const styles = {
   layout: {
@@ -39,7 +39,7 @@ class App extends Component {
   componentDidMount() {
     window.oncontextmenu = (event) => this.disableContextMenu(event)
     const name = window.prompt("Please enter your own (and not someone elses) name")
-    const socketUrl = `ws://${BACKEND_HOST}:${BACKEND_PORT}/cable`
+    const socketUrl = `ws://${BACKEND_ADDRESS}/cable`
     const cable = window.ActionCable.createConsumer(socketUrl)
     const channel = cable.subscriptions.create({ channel: "GameChannel", player: name}, {
       received: data => this.setState(data),
