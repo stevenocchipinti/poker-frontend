@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import './App.css'
 import Hand from "./components/hand"
 import Card from "./components/card"
+import Dealer from "./components/dealer"
 import CommunalCards from "./components/communalCards"
 import "./lib/actioncable-js/actioncable.js"
+import { BACKEND_HOST, BACKEND_PORT } from "./config"
 
 const styles = {
   layout: {
@@ -36,8 +38,9 @@ class App extends Component {
 
   componentDidMount() {
     window.oncontextmenu = (event) => this.disableContextMenu(event)
-    const name = window.prompt("Who the hell are you?!")
-    const cable = window.ActionCable.createConsumer("ws://10.0.1.48:5000/cable")
+    const name = window.prompt("Please enter your own (and not someone elses) name")
+    const socketUrl = `ws://${BACKEND_HOST}:${BACKEND_PORT}/cable`
+    const cable = window.ActionCable.createConsumer(socketUrl)
     const channel = cable.subscriptions.create({ channel: "GameChannel", player: name}, {
       received: data => this.setState(data),
       fold: function() { this.perform("fold") },
@@ -56,20 +59,27 @@ class App extends Component {
     this.state.channel.fold()
   }
 
+  hand() {
+    const { hand } = this.state;
+    return (
+      <Hand
+        fold={() => this.fold()}
+        visible={hand.filter(c => c).length > 0}
+      >
+        {hand.filter(c => c).map((card, index) => (
+          <Card key={index} suit={card.suit} value={card.value}/>
+        ))}
+      </Hand>
+    )
+  }
+
   render() {
-    const { hand, communal } = this.state
+    const { communal } = this.state
     return (
       <div style={styles.layout}>
         <CommunalCards cards={communal}/>
         <div style={styles.table}>
-          <Hand
-            fold={() => this.fold()}
-            visible={hand.filter(c => c).length > 0}
-          >
-            {hand.filter(c => c).map((card, index) => (
-              <Card key={index} suit={card.suit} value={card.value}/>
-            ))}
-          </Hand>
+          { this.hand() }
         </div>
       </div>
     );
