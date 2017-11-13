@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
+import Dealer from "./components/dealer"
 import Hand from "./components/hand"
 import Card from "./components/card"
 import CommunalCards from "./components/communalCards"
@@ -80,6 +81,7 @@ class App extends Component {
         <div style={styles.table}>
           { this.hand() }
         </div>
+        <Dealer/>
       </div>
     );
   }

@@ -1,69 +1,79 @@
 import React, { Component } from 'react'
+import AppBar from 'material-ui/AppBar'
+import Divider from 'material-ui/Divider'
+import Drawer from 'material-ui/Drawer'
+import MenuItem from 'material-ui/MenuItem'
+import DealIcon from 'material-ui/svg-icons/content/content-copy'
+import FlopIcon from 'material-ui/svg-icons/image/filter-3'
+import TurnIcon from 'material-ui/svg-icons/image/filter-4'
+import RiverIcon from 'material-ui/svg-icons/image/filter-5'
+import EndRoundIcon from 'material-ui/svg-icons/navigation/refresh'
+import EndGameIcon from 'material-ui/svg-icons/navigation/cancel'
 import { BACKEND_API_URL } from "../../config"
 
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "space-around",
-  },
-  button: {
-    fontSize: "0.75em",
-    lineHeight: 1,
-    borderRadius: "0.25em",
-    boxShadow: "0 0 2px black",
-    backgroundColor: "white",
-    padding: "0.2em",
-    margin: "0.1em",
-  },
-}
-
 export default class Dealer extends Component {
+  constructor() {
+    super()
+    this.state = {
+      open: false,
+    }
+  }
+
   makeCall(action) {
     fetch(`${BACKEND_API_URL}/${action}`)
   }
 
   render() {
     return (
-      <div style={styles.container}>
-        <button
+      <Drawer
+        docked={false}
+        open={this.state.open}
+        onRequestChange={(open) => this.setState({ open })}
+      >
+        <AppBar title="Dealer" showMenuIconButton={false} />
+        <MenuItem
           onClick={() => this.makeCall("deal")}
-          style={styles.button}
+          leftIcon={<DealIcon/>}
         >
           Deal
-        </button>
-        <button
+        </MenuItem>
+
+        <Divider/>
+
+        <MenuItem
           onClick={() => this.makeCall("flop")}
-          style={styles.button}
+          leftIcon={<FlopIcon/>}
         >
           Flop
-        </button>
-        <button
+        </MenuItem>
+        <MenuItem
           onClick={() => this.makeCall("turn")}
-          style={styles.button}
+          leftIcon={<TurnIcon/>}
         >
           Turn
-        </button>
-        <button
+        </MenuItem>
+        <MenuItem
           onClick={() => this.makeCall("river")}
-          style={styles.button}
+          leftIcon={<RiverIcon/>}
         >
           River
-        </button>
-        <button
+        </MenuItem>
+
+        <Divider/>
+
+        <MenuItem
           onClick={() => this.makeCall("end-round")}
-          style={styles.button}
+          leftIcon={<EndRoundIcon/>}
         >
           End Round
-        </button>
-        <button
+        </MenuItem>
+        <MenuItem
           onClick={() => this.makeCall("end-game")}
-          style={styles.button}
+          leftIcon={<EndGameIcon/>}
         >
           End Game
-        </button>
-      </div>
+        </MenuItem>
+      </Drawer>
     )
   }
 }
