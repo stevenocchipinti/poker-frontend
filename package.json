@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "create-react-app": "^1.4.3",
-    "gh-pages": "^1.0.0",
     "global": "^4.3.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -16,7 +15,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy": "yarn build && gh-pages -d build"
   },
   "devDependencies": {
     "enzyme": "^3.1.1",
