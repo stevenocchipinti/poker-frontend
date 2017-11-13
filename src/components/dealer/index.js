@@ -9,7 +9,7 @@ const styles = {
     alignItems: "space-around",
   },
   button: {
-    fontSize: "1em",
+    fontSize: "0.75em",
     lineHeight: 1,
     borderRadius: "0.25em",
     boxShadow: "0 0 2px black",
@@ -52,10 +52,16 @@ export default class Dealer extends Component {
           River
         </button>
         <button
-          onClick={() => this.makeCall("reset")}
+          onClick={() => this.makeCall("end-round")}
           style={styles.button}
         >
-          Reset
+          End Round
+        </button>
+        <button
+          onClick={() => this.makeCall("end-game")}
+          style={styles.button}
+        >
+          End Game
         </button>
       </div>
     )
