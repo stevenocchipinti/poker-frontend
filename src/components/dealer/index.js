@@ -20,7 +20,7 @@ export default class Dealer extends Component {
   }
 
   makeCall(action) {
-    fetch(`${BACKEND_API_URL}/${action}`)
+    fetch(`${BACKEND_API_URL}/${action}`, { method: "POST" })
   }
 
   render() {
@@ -67,6 +67,9 @@ export default class Dealer extends Component {
         >
           End Round
         </MenuItem>
+
+        <Divider/>
+
         <MenuItem
           onClick={() => this.makeCall("end-game")}
           leftIcon={<EndGameIcon/>}
