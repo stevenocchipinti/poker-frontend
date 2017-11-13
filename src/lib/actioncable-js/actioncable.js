@@ -15,7 +15,8 @@
     createConsumer: function(url) {
       var ref;
       if (url == null) {
-        url = (ref = this.getConfig("url")) != null ? ref : this.INTERNAL.default_mount_path;
+        ref = this.getConfig("url")
+        url = (ref) != null ? ref : this.INTERNAL.default_mount_path;
       }
       return new window.ActionCable.Consumer(this.createWebSocketURL(url));
     },
@@ -130,9 +131,10 @@
     };
 
     ConnectionMonitor.prototype.getPollInterval = function() {
-      var interval, max, min, ref;
-      ref = this.constructor.pollInterval, min = ref.min, max = ref.max;
-      interval = 5 * Math.log(this.reconnectAttempts + 1);
+      var ref = this.constructor.pollInterval
+      var min = ref.min
+      var max = ref.max
+      var interval = 5 * Math.log(this.reconnectAttempts + 1);
       return Math.round(clamp(interval, min, max) * 1000);
     };
 
@@ -150,8 +152,8 @@
     };
 
     ConnectionMonitor.prototype.connectionIsStale = function() {
-      var ref;
-      return secondsSince((ref = this.pingedAt) != null ? ref : this.startedAt) > this.constructor.staleThreshold;
+      var ref = this.pingedAt;
+      return secondsSince((ref) != null ? ref : this.startedAt) > this.constructor.staleThreshold;
     };
 
     ConnectionMonitor.prototype.disconnectedRecently = function() {
@@ -189,14 +191,23 @@
 
 }).call(window);
 (function() {
-  var i, message_types, protocols, ref, supportedProtocols, unsupportedProtocol,
+  var i, message_types, protocols, ref, supportedProtocols,
     slice = [].slice,
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  ref = window.ActionCable.INTERNAL, message_types = ref.message_types, protocols = ref.protocols;
+  ref = window.ActionCable.INTERNAL;
+  message_types = ref.message_types;
+  protocols = ref.protocols;
 
-  supportedProtocols = 2 <= protocols.length ? slice.call(protocols, 0, i = protocols.length - 1) : (i = 0, []), unsupportedProtocol = protocols[i++];
+  if (2 <= protocols.length) {
+    i = protocols.length - 1
+    supportedProtocols = slice.call(protocols, 0, i)
+  } else {
+    i = 0
+    supportedProtocols = []
+    i++
+  }
 
   window.ActionCable.Connection = (function() {
     Connection.reopenDelay = 500;
@@ -243,12 +254,13 @@
         this.monitor.stop();
       }
       if (this.isActive()) {
-        return (ref1 = this.webSocket) != null ? ref1.close() : void 0;
+        ref1 = this.webSocket;
+        return (ref1) != null ? ref1.close() : void 0;
       }
     };
 
     Connection.prototype.reopen = function() {
-      var error, error1;
+      var error;
       window.ActionCable.log("Reopening WebSocket, current state is " + (this.getState()));
       if (this.isActive()) {
         try {
@@ -266,8 +278,8 @@
     };
 
     Connection.prototype.getProtocol = function() {
-      var ref1;
-      return (ref1 = this.webSocket) != null ? ref1.protocol : void 0;
+      var ref1 = this.webSocket;
+      return (ref1) != null ? ref1.protocol : void 0;
     };
 
     Connection.prototype.isOpen = function() {
@@ -279,21 +291,22 @@
     };
 
     Connection.prototype.isProtocolSupported = function() {
-      var ref1;
-      return ref1 = this.getProtocol(), indexOf.call(supportedProtocols, ref1) >= 0;
+      var ref1 = this.getProtocol();
+      return indexOf.call(supportedProtocols, ref1) >= 0;
     };
 
     Connection.prototype.isState = function() {
-      var ref1, states;
-      states = 1 <= arguments.length ? slice.call(arguments, 0) : [];
-      return ref1 = this.getState(), indexOf.call(states, ref1) >= 0;
+      var states = 1 <= arguments.length ? slice.call(arguments, 0) : [];
+      var ref1 = this.getState();
+      return indexOf.call(states, ref1) >= 0;
     };
 
     Connection.prototype.getState = function() {
       var ref1, state, value;
       for (state in WebSocket) {
+        ref1 = this.webSocket;
         value = WebSocket[state];
-        if (value === ((ref1 = this.webSocket) != null ? ref1.readyState : void 0)) {
+        if (value === (ref1 != null ? ref1.readyState : void 0)) {
           return state.toLowerCase();
         }
       }
@@ -321,7 +334,12 @@
         if (!this.isProtocolSupported()) {
           return;
         }
-        ref1 = JSON.parse(event.data), identifier = ref1.identifier, message = ref1.message, type = ref1.type;
+
+        ref1 = JSON.parse(event.data);
+        identifier = ref1.identifier;
+        message = ref1.message;
+        type = ref1.type;
+
         switch (type) {
           case message_types.welcome:
             this.monitor.recordConnect();
@@ -458,7 +476,8 @@
 
     Subscriptions.prototype.notifyAll = function() {
       var args, callbackName, i, len, ref, results, subscription;
-      callbackName = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
+      callbackName = arguments[0];
+      args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
       ref = this.subscriptions;
       results = [];
       for (i = 0, len = ref.length; i < len; i++) {
@@ -470,7 +489,9 @@
 
     Subscriptions.prototype.notify = function() {
       var args, callbackName, i, len, results, subscription, subscriptions;
-      subscription = arguments[0], callbackName = arguments[1], args = 3 <= arguments.length ? slice.call(arguments, 2) : [];
+      subscription = arguments[0];
+      callbackName = arguments[1];
+      args = 3 <= arguments.length ? slice.call(arguments, 2) : [];
       if (typeof subscription === "string") {
         subscriptions = this.findAll(subscription);
       } else {
