@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import "./lib/actioncable-js/actioncable.js"
 import './App.css'
 import Dealer from "./components/dealer"
 import Hand from "./components/hand"
 import Card from "./components/card"
+import PlayerNamePrompt from "./components/playerNamePrompt"
 import CommunalCards from "./components/communalCards"
-import "./lib/actioncable-js/actioncable.js"
 import { BACKEND_SOCKET_URL } from "./config"
 
 const styles = {
@@ -32,20 +33,16 @@ class App extends Component {
       player: null,
       communal: [null, null, null, null, null],
       hand: [],
-      channel: null,
+      subscription: null,
+      consumer: null,
     }
   }
 
   componentDidMount() {
     window.oncontextmenu = (event) => this.disableContextMenu(event)
-    const name = window.prompt("Please enter your own (and not someone elses) name")
-    const socketUrl = `${BACKEND_SOCKET_URL}/cable`
-    const cable = window.ActionCable.createConsumer(socketUrl)
-    const channel = cable.subscriptions.create({ channel: "GameChannel", player: name}, {
-      received: data => this.setState(data),
-      fold: function() { this.perform("fold") },
+    this.setState({ player: window.localStorage.getItem("player") }, () => {
+      this.connectToGame()
     })
-    this.setState({ player: name, channel })
   }
 
   disableContextMenu(event) {
@@ -57,6 +54,35 @@ class App extends Component {
   fold() {
     this.setState({ hand: [] })
     this.state.channel.fold()
+  }
+
+  onPlayerGiven(player) {
+    this.setState({ player }, () => {
+      window.localStorage.setItem("player", this.state.player)
+      this.connectToGame()
+    })
+  }
+
+  connectToGame() {
+    const { player, consumer } = this.state
+
+    if(!player) return
+    if(consumer) consumer.disconnect()
+
+    const socketUrl = `${BACKEND_SOCKET_URL}/cable`
+    const newConsumer = window.ActionCable.createConsumer(socketUrl)
+    const subscription = newConsumer.subscriptions.create(
+      {
+        channel: "GameChannel",
+        player: player
+      },
+      {
+        received: data => this.setState(data),
+        fold: function() { this.perform("fold") },
+      }
+    )
+
+    this.setState({ subscription, consumer: newConsumer })
   }
 
   hand() {
@@ -77,13 +103,17 @@ class App extends Component {
     const { communal } = this.state
     return (
       <div style={styles.layout}>
+        <PlayerNamePrompt
+          open={!this.state.player}
+          onClose={(player) => this.onPlayerGiven(player)}
+        />
         <CommunalCards cards={communal}/>
         <div style={styles.table}>
           { this.hand() }
         </div>
         <Dealer/>
       </div>
-    );
+    )
   }
 }
 
