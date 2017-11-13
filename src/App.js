@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import './App.css'
 import Hand from "./components/hand"
 import Card from "./components/card"
-import Dealer from "./components/dealer"
 import CommunalCards from "./components/communalCards"
 import "./lib/actioncable-js/actioncable.js"
 import { BACKEND_SOCKET_URL } from "./config"

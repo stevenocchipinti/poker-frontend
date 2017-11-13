@@ -1,5 +1,4 @@
 import React from "react"
-import suits from "./suit.js"
 import CardThumbnail from "./CardThumbnail.js"
 import BlankThumbnail from "./BlankThumbnail.js"
 
@@ -17,8 +16,8 @@ const CommunalCards = ({cards}) => (
   <div style={styles.communal}>
     {cards.map((card, index) => (
       card
-      ? <CardThumbnail suit={card.suit} value={card.value}/>
-      : <BlankThumbnail/>
+      ? <CardThumbnail key={index} suit={card.suit} value={card.value}/>
+      : <BlankThumbnail key={index}/>
     ))}
   </div>
 )
