@@ -4,7 +4,7 @@ import BlankThumbnail from "./BlankThumbnail.js"
 
 const styles = {
   communal: {
-    backgroundColor: "#49c493",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     display: "flex",
     justifyContent: "space-around",
     alignItems: "center",

@@ -7,8 +7,7 @@ const styles = {
     width: "1.5em",
     height: "2em",
     borderRadius: "0.25em",
-    boxShadow: "0 0 2px black",
-    backgroundColor: "rgba(0,0,0,0.2)",
+    backgroundColor: "rgba(0,0,0,0.5)",
     padding: "0.1em",
   },
 }
